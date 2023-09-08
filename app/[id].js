@@ -32,7 +32,7 @@ const questionDetailsScreen = () => {
   //screen content
   return (
     <View style={styles.questionDetailsContainer}>
-      {/* <View style={styles.answerAllContainer}>
+      <View style={styles.answerAllContainer}>
         <Text style={styles.answerAllTextItem}>
           {answers.items.length}{" "}
           {answers.items.length == 0
@@ -41,7 +41,7 @@ const questionDetailsScreen = () => {
             ? "answer"
             : "answers"}
         </Text>
-      </View> */}
+      </View>
 
       <FlatList
         data={answers.items}
