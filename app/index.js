@@ -15,7 +15,11 @@ export default function Page() {
       {/*questions posted*/}
       <FlatList
         data={questions.items}
-        renderItem={({ item }) => <QuestionListItem question={item} />}
+        renderItem={({ item }) => (
+          <View style={styles.questionMainContainer}>
+            <QuestionListItem question={item} />
+          </View>
+        )}
         showsVerticalScrollIndicator={false}
         ListFooterComponent={<View style={styles.footer} />}
       />
@@ -27,6 +31,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.black,
+  },
+  questionMainContainer: {
+    marginTop: 10,
   },
   footer: {
     marginBottom: Platform.OS === "ios" ? "10%" : 0,

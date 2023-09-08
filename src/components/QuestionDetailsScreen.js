@@ -6,7 +6,7 @@ import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 //customs
 import { COLORS } from "../../constants/theme";
 
-const QuestionListItem = ({ question }) => {
+const QuestionDetailsScreen = ({ question }) => {
   //format number
   const formattedVotes =
     question.score >= 1000
@@ -67,9 +67,7 @@ const QuestionListItem = ({ question }) => {
 
         {/*actual question section*/}
         <View style={styles.markDownContainer}>
-          <Text numberOfLines={2} style={styles.markDownTextItem}>
-            {question.body_markdown}
-          </Text>
+          <Text style={styles.markDownTextItem}>{question.body_markdown}</Text>
         </View>
 
         {/*question tags section*/}
@@ -289,4 +287,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuestionListItem;
+export default QuestionDetailsScreen;

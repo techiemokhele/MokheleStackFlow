@@ -17,7 +17,21 @@ const RootLayout = () => {
       <Stack.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Let's Debug Code",
+          headerStyle: { backgroundColor: COLORS.maroon },
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            color: COLORS.white,
+            fontSize: 16,
+            fontWeight: "400",
+          },
+          headerRight: () => <LogoTitle />,
+        }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          title: "",
           headerStyle: { backgroundColor: COLORS.maroon },
           headerTitleAlign: "center",
           headerTitleStyle: {
