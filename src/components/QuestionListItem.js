@@ -2,12 +2,9 @@ import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 
 //customs
-import questions from "../../data/questions.json";
 import { COLORS } from "../../constants/theme";
 
-const question = questions.items[0];
-
-const QuestionListItem = () => {
+const QuestionListItem = ({ question }) => {
   return (
     <View style={styles.questionsContainer}>
       {/*user image section*/}
@@ -54,9 +51,9 @@ const QuestionListItem = () => {
 
       {/*question tags section*/}
       <View style={styles.tagsContainer}>
-        {question.tags.map((tag, i) => (
+        {question.tags.map((tag) => (
           <View style={styles.tagsContent}>
-            <Text key={i} style={styles.tagsItem}>
+            <Text key={tag} style={styles.tagsItem}>
               {tag}
             </Text>
           </View>
@@ -97,6 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 0.5,
     borderColor: COLORS.darkGray,
+    marginBottom: 20,
   },
 
   //user image section
