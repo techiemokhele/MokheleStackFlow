@@ -1,0 +1,95 @@
+##___response question query___##
+type Owner {
+  account_id: Int!
+  reputation: Int!
+  user_id: Int
+  user_type: String!
+  profile_image: String!
+  display_name: String!
+  link: String
+}
+
+type Question {
+  question_id: Int!
+  creation_date: Int!
+  title: String!
+  body_markdown: String!
+  score: Int!
+  answer_count: Int!
+  view_count: Int!
+  tags: [String!]!
+  is_answered: Boolean!
+  link: String!
+  owner: Owner
+
+  answers: [Answer]
+    @materializer(
+      query: "answers { items }"
+      arguments: [{ name: "questionId", field: "question_id" }]
+    )
+}
+
+##___response answer query___##
+type Answer {
+  answer_id: Int!
+  creation_date: Int!
+  body_markdown: String!
+  last_activity_date: Int!
+  score: Int!
+  is_accepted: Boolean
+  question_id: Int!
+}
+
+##___response question query___##
+type QuestionsResponse {
+  has_more: Boolean!
+  quota_max: Int!
+  quota_remaining: Int!
+  items: [Question]
+}
+
+##___response answer query___##
+type AnswersResponse {
+  has_more: Boolean!
+  quota_max: Int!
+  quota_remaining: Int!
+  items: [Answer]
+}
+
+##___enum sorting question query___##
+enum QuestionSort {
+  activity
+  creation
+  votes
+  hot
+}
+
+##___enum order question query___##
+enum QuestionOrder {
+  asc
+  desc
+}
+
+##___main query___##
+type Query {
+  questions(sort: QuestionSort!, order: QuestionOrder!): QuestionsResponse
+    @rest(
+      endpoint: "https://api.stackexchange.com/2.3/questions?order=desc&sort=activity&tagged=react-native&site=stackoverflow&filter=!nNPvSNP4(R"
+    )
+
+  question(questionId: Int!): QuestionsResponse
+    @rest(
+      endpoint: "https://api.stackexchange.com/2.3/questions/$questionId?order=desc&sort=votes&site=stackoverflow&filter=!nNPvSNP4(R"
+    )
+
+  answers(questionId: Int): AnswersResponse
+    @rest(
+      endpoint: "https://api.stackexchange.com/2.3/questions/$questionId/answers?order=desc&sort=votes&site=stackoverflow&filter=!3vByVnFcNyZ01KAKv"
+    )
+}
+
+#(questions query with filter) - https://api.stackexchange.com/2.3/questions?order=$order&sort=$sort&tagged=react-native&site=stackoverflow&filter=!0WVkZUE2aUd61A)oNLydqYFhc
+
+#(question query with filter) - https://api.stackexchange.com/2.3/questions/$questionId?order=desc&sort=votes&site=stackoverflow&filter=!0WVkZUE2aUd61A)oNLydqYFhc
+
+#(answer query with filter) - https://api.stackexchange.com/2.3/questions/$questionId/answers?order=desc&sort=votes&site=stackoverflow&filter=!3vByVnFcNyZ01KAKv

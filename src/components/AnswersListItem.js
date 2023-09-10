@@ -1,6 +1,10 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { AntDesign, Entypo, Feather, MaterialIcons } from "@expo/vector-icons";
+import { decode } from "html-entities";
+import Markdown from "react-native-markdown-display";
+
+//customs
 import { COLORS } from "../../constants";
 
 const AnswersListItem = ({ answer }) => {
@@ -71,7 +75,7 @@ const AnswersListItem = ({ answer }) => {
         {/*answer section*/}
         <View style={styles.rightAnswerContainer}>
           <View style={styles.answerTextContainer}>
-            <Text style={styles.answerTextItem}>{answer.body_markdown}</Text>
+            <Markdown>{decode(answer.body_markdown)}</Markdown>
           </View>
 
           <Text style={styles.answerTimeStampTextItem}>
@@ -113,8 +117,6 @@ const styles = StyleSheet.create({
     height: 60,
     resizeMode: "cover",
     borderRadius: 10,
-    borderColor: COLORS.amber,
-    borderWidth: 0.5,
   },
   responderNameContainer: {
     left: 20,
@@ -158,9 +160,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   answerTextContainer: {
-    backgroundColor: COLORS.reechGray,
+    backgroundColor: COLORS.lightBlue,
     borderRadius: 10,
-    padding: 20,
+    borderColor: COLORS.white,
+    borderWidth: 0.5,
+    padding: 10,
   },
   answerTextItem: {
     lineHeight: 18,

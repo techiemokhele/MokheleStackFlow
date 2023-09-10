@@ -2,6 +2,7 @@ import React from "react";
 import { Image, View, Text, StyleSheet, Platform } from "react-native";
 import { Link } from "expo-router";
 import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { decode } from "html-entities";
 
 //customs
 import { COLORS } from "../../constants/theme";
@@ -61,14 +62,14 @@ const QuestionListItem = ({ question }) => {
           style={styles.actualQuestionContainer}
         >
           <Text numberOfLines={2} style={styles.actualQuestionTextItem}>
-            {question.title}
+            {decode(question.title)}
           </Text>
         </Link>
 
         {/*actual question section*/}
         <View style={styles.markDownContainer}>
           <Text numberOfLines={2} style={styles.markDownTextItem}>
-            {question.body_markdown}
+            {decode(question.body_markdown)}
           </Text>
         </View>
 

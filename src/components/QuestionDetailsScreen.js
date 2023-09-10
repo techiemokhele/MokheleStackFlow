@@ -2,6 +2,8 @@ import React from "react";
 import { Image, View, Text, StyleSheet, Platform } from "react-native";
 import { Link } from "expo-router";
 import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { decode } from "html-entities";
+import Markdown from "react-native-markdown-display";
 
 //customs
 import { COLORS } from "../../constants/theme";
@@ -61,13 +63,13 @@ const QuestionDetailsScreen = ({ question }) => {
           style={styles.actualQuestionContainer}
         >
           <Text numberOfLines={2} style={styles.actualQuestionTextItem}>
-            {question.title}
+            {decode(question.title)}
           </Text>
         </Link>
 
         {/*actual question section*/}
         <View style={styles.markDownContainer}>
-          <Text style={styles.markDownTextItem}>{question.body_markdown}</Text>
+          <Markdown>{decode(question.body_markdown)}</Markdown>
         </View>
 
         {/*question tags section*/}
@@ -232,11 +234,9 @@ const styles = StyleSheet.create({
   //markDown question section
   markDownContainer: {
     marginTop: 10,
-  },
-  markDownTextItem: {
-    color: COLORS.white,
-    fontSize: 11,
-    fontWeight: "400",
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    backgroundColor: COLORS.amber,
   },
 
   //tags section

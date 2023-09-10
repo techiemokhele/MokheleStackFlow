@@ -1,0 +1,3 @@
+schema @sdl(files: ["letsdebugcode.graphql"]) {
+  query: Query
+}
