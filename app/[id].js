@@ -1,25 +1,52 @@
 import React from "react";
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { useSearchParams } from "expo-router";
+import { useQuery } from "urql";
 
 //components
 import QuestionDetailsScreen from "../src/components/QuestionDetailsScreen";
+import AnswersListItem from "../src/components/AnswersListItem";
 
 //customs
-import questions from "../assets/data/questions.json";
-import answers from "../assets/data/answers.json";
+import { getQuestionQuery } from "../src/graphql/queries";
 import { COLORS, images } from "../constants";
-import AnswersListItem from "../src/components/AnswersListItem";
+import LoadingComponent from "../src/components/LoadingComponent";
 
 const questionDetailsScreen = () => {
   //question id
   const { id } = useSearchParams();
 
-  //screen query
-  const questionQueryId = questions.items.find((q) => q.question_id == id);
+  //screen data query
+  const [res] = useQuery({
+    query: getQuestionQuery,
+    variables: { id },
+  });
+
+  //if screen data is loading
+  if (res.fetching) {
+    return (
+      <LoadingComponent
+        loading
+        phrase={"Please wait while we load the data..."}
+      />
+    );
+  }
+
+  //query has an error
+  if (res.error) {
+    return (
+      <LoadingComponent
+        error
+        phrase={"Oops! Something went wrong. \n\n" + res.error.message}
+      />
+    );
+  }
+
+  //get question data
+  const question = res.data.question.items[0];
 
   //check if id exists
-  if (!questionQueryId) {
+  if (!question) {
     return (
       <View style={styles.questionErrorContainer}>
         <Image source={images.notFound} style={styles.questionErrorImage} />
@@ -34,28 +61,28 @@ const questionDetailsScreen = () => {
     <View style={styles.questionDetailsContainer}>
       <View style={styles.answerAllContainer}>
         <Text style={styles.answerAllTextItem}>
-          {answers.items.length}{" "}
-          {answers.items.length == 0
+          {question.answers.length}{" "}
+          {question.answers.length === 0
             ? "answers"
-            : answers.items.length == 1
+            : question.answers.length === 1
             ? "answer"
             : "answers"}
         </Text>
       </View>
 
       <FlatList
-        data={answers.items}
+        data={question.answers}
         renderItem={({ item }) => (
-          <View style={styles.answerMainContaniner}>
+          <View style={styles.answerMainContainer}>
             <AnswersListItem answer={item} />
           </View>
         )}
-        showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.questionDetailsContent}>
-            <QuestionDetailsScreen question={questionQueryId} />
+            <QuestionDetailsScreen question={question} />
           </View>
         }
+        showsVerticalScrollIndicator={false}
         ListFooterComponent={<View style={styles.answerFooter} />}
       />
     </View>
@@ -73,7 +100,7 @@ const styles = StyleSheet.create({
 
   //all answers
   answerAllContainer: {
-    marginTop: 10,
+    marginVertical: 10,
     paddingHorizontal: 15,
   },
   answerAllTextItem: {
@@ -82,7 +109,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
-  answerMainContaniner: {
+  answerMainContainer: {
     marginTop: 10,
   },
 

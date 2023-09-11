@@ -6,6 +6,7 @@ const logoWhite = require("../assets/logo/logo-white.png");
 
 //error images
 const notFound = require("../assets/images/error.gif");
+const loading = require("../assets/images/loading.gif");
 
 export default {
   logoBlack,
@@ -13,4 +14,5 @@ export default {
   logoNoBackground,
   logoWhite,
   notFound,
+  loading,
 };

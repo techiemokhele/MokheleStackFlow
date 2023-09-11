@@ -20,21 +20,27 @@ const AnswersListItem = ({ answer }) => {
         {/*responder image section*/}
         <View style={styles.responderImageContainer}>
           <Image
-            source={{ uri: answer.responderImage }}
+            source={{
+              uri: answer?.owner?.profile_image
+                ? answer?.owner?.profile_image
+                : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fgifer.com%2Fen%2Fgifs%2F%25D0%25B0%25D0%25BD%25D0%25BE%25D0%25BD%25D0%25B8%25D0%25BC%25D0%25BD%25D1%258B%25D0%25B9&psig=AOvVaw3smk4NG8uPe9pSzz4Kj5C2&ust=1694447361079000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCPDQmLqyoIEDFQAAAAAdAAAAABAJ",
+            }}
             style={styles.responderImageItem}
           />
 
           {/*responder name section*/}
           <View style={styles.responderNameContainer}>
             <Text style={styles.responderNameTextItem}>
-              {answer.responderName}{" "}
+              {answer?.owner?.display_name}{" "}
             </Text>
-            <MaterialIcons
-              name="verified"
-              size={14}
-              color={COLORS.lightBlue}
-              style={{ marginTop: 2.8 }}
-            />
+            {answer?.owner?.user_type === "registered" ? (
+              <MaterialIcons
+                name="verified"
+                size={14}
+                color={COLORS.lightBlue}
+                style={{ marginTop: 2.8 }}
+              />
+            ) : null}
           </View>
         </View>
       </View>
@@ -43,6 +49,12 @@ const AnswersListItem = ({ answer }) => {
 
   //answer section
   function renderAnswerCollectionSection() {
+    //format number
+    const formattedReputation =
+      answer.owner.reputation >= 1000
+        ? `${(answer.owner.reputation / 1000).toFixed(1)}K`
+        : answer.owner.reputation;
+
     return (
       <View style={styles.answerSectionContainer}>
         {/*scoring section*/}
@@ -81,6 +93,43 @@ const AnswersListItem = ({ answer }) => {
           <Text style={styles.answerTimeStampTextItem}>
             answered {new Date(answer.creation_date * 1000).toDateString()}
           </Text>
+
+          {/*answer owner reputation*/}
+          <View style={styles.reputationAnswerContainer}>
+            <Text style={styles.reputationAnswerText}>
+              Reputation:{" "}
+              <Text style={styles.reputationAnswerTextItem}>
+                {formattedReputation}
+              </Text>
+            </Text>
+
+            <Text style={styles.reputationAnswerText}>
+              Status:{" "}
+              <Text style={styles.reputationAnswerTextItem}>
+                {formattedReputation > 300
+                  ? "Beginner Level  "
+                  : formattedReputation >= 5000
+                  ? "Intermediate Level  "
+                  : formattedReputation >= 10000
+                  ? "Legend Level  "
+                  : "Newbie Level  "}
+
+                {formattedReputation > 300 ? (
+                  <AntDesign name="codesquare" size={16} color={COLORS.pink} />
+                ) : formattedReputation >= 5000 ? (
+                  <AntDesign name="codesquare" size={16} color={COLORS.amber} />
+                ) : formattedReputation >= 10000 ? (
+                  <AntDesign
+                    name="codesquare"
+                    size={16}
+                    color={COLORS.greenActive}
+                  />
+                ) : (
+                  <AntDesign name="codesquare" size={16} color={COLORS.red} />
+                )}
+              </Text>
+            </Text>
+          </View>
         </View>
       </View>
     );
@@ -178,6 +227,27 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: COLORS.white,
     opacity: 0.5,
+  },
+
+  //reputation answer section
+  reputationAnswerContainer: {
+    marginTop: 10,
+    marginLeft: "45%",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    backgroundColor: COLORS.reechGray,
+  },
+  reputationAnswerText: {
+    marginBottom: 5,
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: "400",
+  },
+  reputationAnswerTextItem: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: "600",
   },
 });
 

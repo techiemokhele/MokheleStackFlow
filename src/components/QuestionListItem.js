@@ -33,7 +33,11 @@ const QuestionListItem = ({ question }) => {
           {/*user image item*/}
           <View style={styles.userImageSectionContainer}>
             <Image
-              source={{ uri: question.userImage }}
+              source={{
+                uri: question?.owner?.profile_image
+                  ? question?.owner?.profile_image
+                  : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fgifer.com%2Fen%2Fgifs%2F%25D0%25B0%25D0%25BD%25D0%25BE%25D0%25BD%25D0%25B8%25D0%25BC%25D0%25BD%25D1%258B%25D0%25B9&psig=AOvVaw3smk4NG8uPe9pSzz4Kj5C2&ust=1694447361079000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCPDQmLqyoIEDFQAAAAAdAAAAABAJ",
+              }}
               style={styles.userImageItem}
             />
           </View>
@@ -43,7 +47,15 @@ const QuestionListItem = ({ question }) => {
             {/*user name item*/}
             <View style={styles.userNameTextContainer}>
               <Text numberOfLines={1} style={styles.userNameTextItem}>
-                {question.userName}
+                {decode(question?.owner?.display_name)}{" "}
+                {question?.owner?.user_type === "registered" ? (
+                  <MaterialIcons
+                    name="verified"
+                    size={14}
+                    color={COLORS.lightBlue}
+                    style={{ marginTop: 2.8 }}
+                  />
+                ) : null}
               </Text>
             </View>
 

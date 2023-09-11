@@ -38,6 +38,7 @@ type Answer {
   score: Int!
   is_accepted: Boolean
   question_id: Int!
+  owner: Owner
 }
 
 ##___response question query___##
@@ -64,15 +65,9 @@ enum QuestionSort {
   hot
 }
 
-##___enum order question query___##
-enum QuestionOrder {
-  asc
-  desc
-}
-
 ##___main query___##
 type Query {
-  questions(sort: QuestionSort!, order: QuestionOrder!): QuestionsResponse
+  questions(sort: QuestionSort!): QuestionsResponse
     @rest(
       endpoint: "https://api.stackexchange.com/2.3/questions?order=desc&sort=activity&tagged=react-native&site=stackoverflow&filter=!nNPvSNP4(R"
     )
@@ -84,7 +79,7 @@ type Query {
 
   answers(questionId: Int): AnswersResponse
     @rest(
-      endpoint: "https://api.stackexchange.com/2.3/questions/$questionId/answers?order=desc&sort=votes&site=stackoverflow&filter=!3vByVnFcNyZ01KAKv"
+      endpoint: "https://api.stackexchange.com/2.3/questions/$questionId/answers?order=desc&sort=votes&site=stackoverflow&filter=!nNPvSNe7Gv"
     )
 }
 
